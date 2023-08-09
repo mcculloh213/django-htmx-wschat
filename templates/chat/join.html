@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form method="POST" action="{% url 'join' %}">
+        {% csrf_token %}
+        <label for="room_slug">Room Code</label>
+        <input name="room_slug" id="room_slug" required="required" placeholder="Room Code" />
+        <input type="submit" id="submit" />
+    </form>
+{% endblock %}

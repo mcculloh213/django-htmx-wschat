@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>{{ name }}</h2>
+    <p>Room Code: {{ slug }}</p>
+    <div hx-ws="connect:/chat/{{ slug }}/">
+        <form hx-ws="send:submit">
+            <label for="message">Message</label>
+            <input name="message" id="message" />
+            <input type="submit" id="submit" />
+        </form>
+     </div>
+     <div id="messages"></div>
+{% endblock %}

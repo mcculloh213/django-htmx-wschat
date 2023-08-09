@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form method="POST" action="{% url 'create' %}">
+        {% csrf_token %}
+        <label for="room_name">Room Name</label>
+        <input name="room_name" id="room_name" placeholder="Enter room name..." />
+        <input type="submit" id="submit" />
+    </form>
+{% endblock %}

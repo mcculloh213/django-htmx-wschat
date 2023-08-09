@@ -39,11 +39,31 @@ class ChatWebsocketConsumer(AsyncWebsocketConsumer):
         message = event["message"]
         username = event["username"]
 
+        message_htmx = f"<div hx-swap-oob='beforeend:#messages'><p><b>{username}</b>: {message}</p></div>"
         await self.send(
             text_data=json.dumps(
                 {
-                    "message": message,
+                    "message": message_htmx,
                     "username": username
                 }
             )
         )
+
+    @sync_to_async
+    def save_message(self, room, user, message):
+        room = Room.objects.get(slug=room)
+        Message.objects.create(room=room, user=user, message=message)
+
+    @sync_to_async
+    def add_user(self, room, user):
+        room = Room.objects.get(slug=room)
+        if user not in room.users.all():
+            room.users.add(user)
+            room.save()
+
+    @sync_to_async
+    def remove_user(self, room, user):
+        room = Room.objects.get(slug=room)
+        if user in room.users.all():
+            room.users.remove(user)
+            room.save()
